@@ -1,5 +1,5 @@
 import akka.pattern._
-import akka.stream.OperationAttributes
+import akka.stream.Attributes
 import akka.stream.scaladsl.FlowGraph.Implicits._
 import akka.stream.scaladsl._
 import akka.util.ByteString
@@ -46,7 +46,7 @@ object Playground extends App with BaseStreamingFacilities {
 //  slowedDown.runWith(Sink.foreach(println))
 
   //  we can just put a flow in between
-  val bufferSingle: Flow[Int, Int, Unit] = Flow[Int].withAttributes(OperationAttributes.inputBuffer(1, 1))
+  val bufferSingle: Flow[Int, Int, Unit] = Flow[Int].withAttributes(Attributes.inputBuffer(1, 1))
 
     /**
      * 
