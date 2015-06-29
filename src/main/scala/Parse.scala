@@ -15,6 +15,8 @@ import scala.util.Try
  */
 object Parse extends App with BaseStreamingFacilities {
 
+  import scala.concurrent.ExecutionContext.Implicits.global
+
   val file = "/tmp/20150622.json.gz"
   val languages = List("it", "en", "es", "nl")
 
@@ -48,9 +50,21 @@ object Parse extends App with BaseStreamingFacilities {
     }
 
   def parseJson(langs: Seq[String]): Flow[String, WikidataElement, Unit] = Flow[String].mapConcat(line => parseItem(langs, line).toList)
+  def parseJsonAsync(langs: Seq[String]): Flow[String, WikidataElement, Unit] = Flow[String].mapAsyncUnordered(8)(line => Future(parseItem(langs, line))).collect {
+                                                                                                                                                                    case Some(x) => x
+                                                                                                                                                                  }
 
-  //this is a source of WikidataElement
-  val transformedSource: Source[WikidataElement, Future[Long]] = source(new File(file)).via(parseJson(languages))
+  //flow of booleans, true if all titles are the same in the required languages, false otherwise
+  def checkSameTitles(langs: Seq[String]): Flow[WikidataElement, Boolean, Unit] = Flow[WikidataElement].filter(_.sites.keySet == langs.toSet).map { wikiElement =>
+                                                                                                                                                    val values = wikiElement.sites.values
+                                                                                                                                                    values.forall(_.equals(values.head))
+                                                                                                                                                  }
+
+  //count how many true vs false. Fold (left) the stream accumulating until it's gone
+  def countSink: Sink[Boolean, Future[(Int, Int)]] = Sink.fold((0, 0)) {
+    case ((t, f), true) => (t + 1, f)
+    case ((t, f), false) => (t, f + 1)
+  }
 
   //general purpose sink
   def logEveryNSink[T](n: Int): Sink[T, Future[Int]] = Sink.fold(0) { (k, wikiElement: T) =>
@@ -60,6 +74,20 @@ object Parse extends App with BaseStreamingFacilities {
     }
   }
 
-  transformedSource.to(logEveryNSink(100)).run()
+  //graph that logs AND checks same titles (fan-out)
 
+  val graph = FlowGraph.closed(countSink) { implicit builder =>
+    countSink => {
+      import FlowGraph.Implicits._
+
+      val broadcast = builder.add(Broadcast[WikidataElement](2))
+
+      source(new File(file)).via(parseJson(languages)) ~> broadcast ~> logEveryNSink(1000)
+                                                          broadcast ~> checkSameTitles(languages) ~> countSink
+    }
+  }
+
+
+//  source(new File(file)).via(parseJson(languages)).to(logEveryNSink(100)).run()
+  graph.run()
 }
