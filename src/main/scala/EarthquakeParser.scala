@@ -1,4 +1,5 @@
 import akka.actor.ActorSystem
+import akka.io.Udp.SO.Broadcast
 import akka.stream.io.{Framing, InputStreamSource}
 import akka.stream.scaladsl.{Sink, FlowGraph}
 import akka.stream.{ActorMaterializer, scaladsl}
@@ -26,6 +27,10 @@ object EarthquakeParser extends App {
     } yield EarthquakeEvent(lat, long, elev, magnitude, time, place)
   )
 
+  /**
+   * This source emits strings as they come from the resource
+   * @param resource
+   */
   def source(resource: String): scaladsl.Source[String, Future[Long]] = {
     val inputStream = getClass.getClassLoader.getResourceAsStream(resource)
     InputStreamSource(() => inputStream)
@@ -33,10 +38,19 @@ object EarthquakeParser extends App {
       .map(bytestring => bytestring.decodeString("UTF-8"))
   }
 
+  /**
+   * map String to decoded EarthquakeEvent
+   * @param s
+   */
   def jsonToEvent(s: String): Option[EarthquakeEvent] = {
     s.decodeOption[EarthquakeEvent]
   }
 
+  /**
+   * Sink that just logs
+   * @tparam T
+   * @return
+   */
   def loggerSink[T]: Sink[T, Future[Int]] = Sink.fold(0) { (index, elem) => println(s"$index-th element: $elem"); index + 1}
 
 
@@ -45,6 +59,13 @@ object EarthquakeParser extends App {
   implicit val timeout = Timeout(3 seconds)
 
   source("all_month.geojson").map(jsonToEvent).to(loggerSink).run()
+//
+//  val g = FlowGraph.closed() { implicit b =>
+//    import FlowGraph.Implicits._
+//
+//    val bcast = b.add(Broadcast[])
+//
+//  }
 
 
 

@@ -11,7 +11,7 @@ import scala.concurrent.{Await, Future}
  */
 object Playground extends App with BaseStreamingFacilities {
 
-  import scala.concurrent.ExecutionContext.Implicits.global
+  implicit val dispatcher = actorSystem.dispatcher
 
   val numbers = Source(List(1, 2, 3, 4, 5))
   val strings = Source(List("a", "b", "c"))
@@ -43,7 +43,7 @@ object Playground extends App with BaseStreamingFacilities {
   //  done nicely:
   val slowedDown = fastSource.mapAsync(20)(x => after(1 second, actorSystem.scheduler)(Future.successful(x)))
   //if we do instead mapAsync(1) we use only 1 parallelism level, and there are no bursts
-//  slowedDown.runWith(Sink.foreach(println))
+  slowedDown.runWith(Sink.foreach(println))
 
   //  we can just put a flow in between
   val bufferSingle: Flow[Int, Int, Unit] = Flow[Int].withAttributes(Attributes.inputBuffer(1, 1))
