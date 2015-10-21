@@ -11,6 +11,10 @@ import scala.concurrent.Future
 object HttpClientConnection extends App with BaseStreamingFacilities {
 
 
+  /**
+   * Here we open explicitly one connection when running the flow, and send req/res over it.
+   * When stream is complete, connection is closed
+   */
   //This is a flow Request --> Response
   val connectionFlow: Flow[HttpRequest, HttpResponse, Future[OutgoingConnection]] = Http().outgoingConnection("google.com")
   //we must connect the flow to a request source, and consume it in a response sink
