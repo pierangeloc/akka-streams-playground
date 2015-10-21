@@ -1,5 +1,8 @@
+package stream
+
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer}
+import akka.http.scaladsl.Http
+import akka.stream.ActorMaterializer
 import akka.util.Timeout
 
 import scala.concurrent.duration._

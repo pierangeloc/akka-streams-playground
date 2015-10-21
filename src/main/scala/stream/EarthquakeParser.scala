@@ -1,15 +1,16 @@
+package stream
+
 import akka.actor.ActorSystem
 import akka.io.Udp.SO.Broadcast
 import akka.stream.io.{Framing, InputStreamSource}
-import akka.stream.scaladsl.{Sink, FlowGraph}
+import akka.stream.scaladsl.Sink
 import akka.stream.{ActorMaterializer, scaladsl}
-import akka.util.{Timeout, ByteString}
-import argonaut._, Argonaut._
+import akka.util.{ByteString, Timeout}
+import argonaut.Argonaut._
+import argonaut._
 
-import scala.concurrent.duration._
 import scala.concurrent.Future
-import scala.io.{Source, BufferedSource}
-import scalaz.\/
+import scala.concurrent.duration._
 
 
 object EarthquakeParser extends App {

@@ -1,7 +1,9 @@
+package stream
+
 import java.nio.ByteOrder
 
 import akka.stream.BidiShape
-import akka.stream.scaladsl.{Flow, BidiFlow}
+import akka.stream.scaladsl.{BidiFlow, Flow}
 import akka.stream.stage._
 import akka.util.ByteString
 

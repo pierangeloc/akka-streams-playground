@@ -1,6 +1,8 @@
-import akka.stream.scaladsl.Tcp.{OutgoingConnection, ServerBinding, IncomingConnection}
+package stream
+
+import akka.stream.scaladsl.Tcp.{IncomingConnection, OutgoingConnection, ServerBinding}
 import akka.stream.scaladsl.{Concat, Flow, Source, Tcp}
-import akka.stream.stage.{StatefulStage, SyncDirective, Context, PushStage}
+import akka.stream.stage.{Context, PushStage, StatefulStage, SyncDirective}
 import akka.util.ByteString
 
 import scala.annotation.tailrec

@@ -1,3 +1,5 @@
+package stream
+
 import akka.pattern._
 import akka.stream.Attributes
 import akka.stream.scaladsl.FlowGraph.Implicits._

@@ -1,3 +1,5 @@
+package stream
+
 /**
  * Created by pierangelo on 19-5-15.
  */

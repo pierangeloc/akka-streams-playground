@@ -1,9 +1,10 @@
-import akka.stream
-import akka.stream.{OverflowStrategy, UniformFanInShape}
-import akka.stream.scaladsl._
+package stream
 
-import scala.concurrent.{Await, Future}
+import akka.stream.scaladsl._
+import akka.stream.{OverflowStrategy, UniformFanInShape}
+
 import scala.concurrent.duration._
+import scala.concurrent.{Await, Future}
 
 object Graphs extends App with BaseStreamingFacilities {
 

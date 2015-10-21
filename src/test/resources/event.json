@@ -1,0 +1,40 @@
+{
+  "geometry": {
+    "coordinates": [
+      -118.8470001,
+      37.4575005,
+      4.6
+    ],
+    "type": "Point"
+  },
+  "id": "nc72535605",
+  "properties": {
+    "alert": null,
+    "cdi": null,
+    "code": "72535605",
+    "detail": "http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/nc72535605.geojson",
+    "dmin": 0.1042,
+    "felt": null,
+    "gap": 208,
+    "ids": ",nc72535605,",
+    "mag": 0.86,
+    "magType": "md",
+    "mmi": null,
+    "net": "nc",
+    "nst": 8,
+    "place": "23km SSE of Mammoth Lakes, California",
+    "rms": 0.02,
+    "sig": 11,
+    "sources": ",nc,",
+    "status": "automatic",
+    "time": 1444644365090,
+    "title": "M 0.9 - 23km SSE of Mammoth Lakes, California",
+    "tsunami": 0,
+    "type": "earthquake",
+    "types": ",general-link,geoserve,nearby-cities,origin,phase-data,",
+    "tz": -420,
+    "updated": 1444644462080,
+    "url": "http://earthquake.usgs.gov/earthquakes/eventpage/nc72535605"
+  },
+  "type": "Feature"
+}

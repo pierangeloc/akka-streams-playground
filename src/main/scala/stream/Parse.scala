@@ -1,3 +1,5 @@
+package stream
+
 import java.io.{File, FileInputStream}
 import java.util.zip.GZIPInputStream
 
