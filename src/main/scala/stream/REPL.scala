@@ -8,7 +8,7 @@ import akka.util.ByteString
 import scala.annotation.tailrec
 import scala.concurrent.Future
 
-object REPL  extends App with BaseStreamingFacilities {
+object REPL  extends App with StreamingFacilities {
 
   //setup a server
   val connectionsSource: Source[IncomingConnection, Future[ServerBinding]] = Tcp().bind("localhost", 8085)

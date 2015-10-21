@@ -6,7 +6,7 @@ import akka.stream.{OverflowStrategy, UniformFanInShape}
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-object Graphs extends App with BaseStreamingFacilities {
+object Graphs extends App with StreamingFacilities {
 
     //  like connecting circuits
   val pickMaxOfThree = FlowGraph.partial() { implicit b =>

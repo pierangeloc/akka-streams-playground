@@ -4,12 +4,12 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.Http.HostConnectionPool
 import akka.http.scaladsl.model.{HttpResponse, HttpRequest}
 import akka.stream.scaladsl.{Sink, Flow, Source}
-import stream.BaseStreamingFacilities
+import stream.StreamingFacilities
 
 import scala.util.Try
 
 
-object HttpClientConnectionPool extends App with BaseStreamingFacilities {
+object HttpClientConnectionPool extends App with StreamingFacilities {
 
   /**
     * Create a connection pool to a given endpoint (host, port). Pool is local to the actor system,

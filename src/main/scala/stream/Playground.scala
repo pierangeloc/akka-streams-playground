@@ -11,7 +11,7 @@ import scala.concurrent.{Await, Future}
 /**
  * Created by pierangelo on 17-5-15.
  */
-object Playground extends App with BaseStreamingFacilities {
+object Playground extends App with StreamingFacilities {
 
   implicit val dispatcher = actorSystem.dispatcher
 

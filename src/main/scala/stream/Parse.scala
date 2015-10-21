@@ -15,7 +15,7 @@ import scala.util.Try
 /**
  * Created by pierangelo on 29-6-15.
  */
-object Parse extends App with BaseStreamingFacilities {
+object Parse extends App with StreamingFacilities {
 
   import scala.concurrent.ExecutionContext.Implicits.global
 

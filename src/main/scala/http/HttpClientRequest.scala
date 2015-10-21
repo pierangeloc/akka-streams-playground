@@ -3,12 +3,12 @@ package http
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpResponse, HttpRequest}
 import akka.stream.scaladsl.{Sink, Source, Flow}
-import stream.BaseStreamingFacilities
+import stream.StreamingFacilities
 
 import scala.concurrent.Future
 import scala.util.Try
 
-object HttpClientRequest extends App with BaseStreamingFacilities {
+object HttpClientRequest extends App with StreamingFacilities {
 
   implicit val dispatcher = actorSystem.dispatcher
 

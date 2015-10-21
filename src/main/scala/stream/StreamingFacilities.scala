@@ -8,7 +8,7 @@ import akka.util.Timeout
 import scala.concurrent.duration._
 
 
-trait BaseStreamingFacilities {
+trait StreamingFacilities {
 
   implicit val actorSystem = ActorSystem("Playground")
   implicit val flowMaterializer = ActorMaterializer()
