@@ -18,7 +18,7 @@ object HttpClientConnection extends App with StreamingFacilities {
   //This is a flow Request ==> Response
   val connectionFlow: Flow[HttpRequest, HttpResponse, Future[OutgoingConnection]] = Http().outgoingConnection("google.com")
   //we must connect the flow to a request source, and consume it in a response sink
-  val responseFuture = Source.single(HttpRequest(uri = "/"))
+  val responseFuture: Future[Unit] = Source.single(HttpRequest(uri = "/"))
                         .via(connectionFlow).runWith(Sink.foreach(response => println(s"$response")))
 
 }

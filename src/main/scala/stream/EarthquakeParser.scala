@@ -1,7 +1,6 @@
 package stream
 
 import akka.actor.ActorSystem
-import akka.io.Udp.SO.Broadcast
 import akka.stream.io.{Framing, InputStreamSource}
 import akka.stream.scaladsl.Sink
 import akka.stream.{ActorMaterializer, scaladsl}
@@ -11,6 +10,7 @@ import argonaut._
 
 import scala.concurrent.Future
 import scala.concurrent.duration._
+import scala.io.StdIn
 
 
 object EarthquakeParser extends App {
@@ -59,15 +59,10 @@ object EarthquakeParser extends App {
   implicit val flowMaterializer = ActorMaterializer()
   implicit val timeout = Timeout(3 seconds)
 
-  source("all_month.geojson").map(jsonToEvent).to(loggerSink).run()
-//
-//  val g = FlowGraph.closed() { implicit b =>
-//    import FlowGraph.Implicits._
-//
-//    val bcast = b.add(Broadcast[])
-//
-//  }
-
-
+  //back pressure is defined in terms of readline events
+  source("all_month.geojson").map(jsonToEvent)
+                             .map( optionEvent => optionEvent.map(_.toString) getOrElse "Empty")
+                             .map(s => {StdIn.readLine(); s})
+                             .to(loggerSink).run()
 
 }

@@ -10,7 +10,7 @@ object HttpServerWithRouting extends App with StreamingFacilities {
 
   /**
    * We need to import akka.http.scaladsl.server.Directives._
-   * and implicit converters for XML import akka.http.scaladsl.marshallers.xml.ScalaXmlSupport._
+   * and implicit converters for XML, `import akka.http.scaladsl.marshallers.xml.ScalaXmlSupport._`
    * The Route is actually a RequestContext => Future[RouteResult]
    * RequestContext wraps request with surrounding situation descriptions (e.g. which part of the request path hasn't been matched yet, execution context etc). Immutable but easy to reproduce
    * RouteResult result of the routing: Complete or Rejected
