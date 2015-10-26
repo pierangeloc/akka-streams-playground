@@ -2,6 +2,7 @@ package http
 
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.{MissingFormFieldRejection, Route}
+import akka.stream.scaladsl.Sink
 import stream.StreamingFacilities
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.marshallers.xml.ScalaXmlSupport._
@@ -47,7 +48,8 @@ object HttpServerWithRouting extends App with StreamingFacilities {
 
 
   //serve, as flow connection hander
-  Http().bindAndHandle(route, "localhost", 8081)
-
+  Http().bindAndHandle(route, "localhost", 9081)
+  //or equivalently:
+  Http().bind(interface = "localhost", port = 9082).to(Sink.foreach(connection => connection.handleWith(route))).run()
 
 }
